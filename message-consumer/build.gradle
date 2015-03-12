@@ -1,12 +1,3 @@
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
-version = '1.0'
-
-repositories {
-    mavenCentral()
-}
-
 apply plugin: 'application'
 
 dependencies {
@@ -28,13 +19,13 @@ dependencies {
 
 run {
     mainClassName = 'com.cfa.message.MessageConsumer'
-    if (("port" in properties) && ("brokerList" in properties))
-        args = [properties["port"], properties["brokerList"]]
+    if (project.hasProperty("port") && project.hasProperty("brokerList"))
+        args = [project.properties["port"], project.properties["brokerList"]]
 }
 
 run.doFirst {
-    if (!("port" in properties))
+    if (!project.hasProperty("port"))
         throw new InvalidUserDataException("'port' is not specified, you can pass it as e.g. -Pport=8080")
-    if (!("brokerList" in properties))
+    if (!project.hasProperty("brokerList"))
         throw new InvalidUserDataException("'brokerList' is not specified, you can pass it as e.g. -PbrokerList=localhost:9092")
 }
