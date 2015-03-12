@@ -2,7 +2,7 @@
 apply plugin: 'application'
 
 dependencies {
-    compile 'org.apache.kafka:kafka-clients:0.8.2.1'
+    compile 'org.apache.kafka:kafka-clients:0.8.2.0'
 
     compile 'org.eclipse.jetty:jetty-server:9.2.9.v20150224',
             'org.eclipse.jetty:jetty-servlet:9.2.9.v20150224'
@@ -20,5 +20,13 @@ dependencies {
 
 run {
     mainClassName = 'com.cfa.message.MessageConsumer'
-    args = [port, brokerList]
+    if (("port" in properties) && ("brokerList" in properties))
+        args = [properties["port"], properties["brokerList"]]
+}
+
+run.doFirst {
+    if (!("port" in properties))
+        throw new InvalidUserDataException("'port' is not specified, you can pass it as e.g. -Pport=8080")
+    if (!("brokerList" in properties))
+        throw new InvalidUserDataException("'brokerList' is not specified, you can pass it as e.g. -PbrokerList=localhost:9092")
 }
