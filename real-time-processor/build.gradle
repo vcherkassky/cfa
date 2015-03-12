@@ -1,3 +1,28 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+    }
+}
+apply plugin: 'eu.appsatori.fatjar'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://clojars.org/repo/"
+    }
+}
+
 dependencies {
+    compile 'org.apache.storm:storm-core:0.9.3', {
+        ext {
+            fatJarExclude = true
+        }
+    }
+
+    compile 'org.apache.storm:storm-kafka:0.9.3'
+
     testCompile 'junit:junit:4.11'
 }
