@@ -8,7 +8,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
  * <br/><br/>Created by victor on 3/11/15.
  */
 public class MessageConsumer {
-
     private final int port;
     private final MessageSink sink;
 

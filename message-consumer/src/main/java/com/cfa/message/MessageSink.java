@@ -1,5 +1,6 @@
 package com.cfa.message;
 
+import com.cfa.commons.Consts;
 import com.google.common.base.Throwables;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -13,10 +14,8 @@ import java.util.concurrent.TimeUnit;
  * <br/><br/>Created by victor on 3/11/15.
  */
 public class MessageSink {
-
+    private final String topic = Consts.KAFKA_TOPIC;
     private final KafkaProducer<String, String> producer;
-    //TODO: make this configurable
-    private final String topic = "messages";
 
     public MessageSink(String brokerList) {
         Properties properties = new Properties();
