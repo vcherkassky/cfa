@@ -16,13 +16,13 @@ repositories {
 }
 
 dependencies {
+    compile project(":commons")
+
     compile 'org.apache.storm:storm-core:0.9.3', {
         ext {
             fatJarExclude = true
         }
     }
-
     compile 'org.apache.storm:storm-kafka:0.9.3'
-
-    testCompile 'junit:junit:4.11'
+    compile 'org.apache.kafka:kafka_2.11:0.8.2.0'
 }

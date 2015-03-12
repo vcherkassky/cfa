@@ -8,3 +8,5 @@ include 'real-time-processor'
 
 include 'front-end'
 
+include 'commons'
+

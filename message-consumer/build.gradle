@@ -1,20 +1,14 @@
 apply plugin: 'application'
 
 dependencies {
+    compile project(":commons")
+
     compile 'org.apache.kafka:kafka-clients:0.8.2.0'
 
     compile 'org.eclipse.jetty:jetty-server:9.2.9.v20150224',
             'org.eclipse.jetty:jetty-servlet:9.2.9.v20150224'
 
-    compile 'org.yaml:snakeyaml:1.15'
-
     compile 'com.google.guava:guava:18.0'
-
-    compile 'org.slf4j:slf4j-api:1.7.+'
-
-    runtime 'ch.qos.logback:logback-classic:1.0.+'
-
-    testCompile 'junit:junit:4.11'
 }
 
 run {
