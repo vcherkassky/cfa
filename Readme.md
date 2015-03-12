@@ -8,13 +8,16 @@
 
 **WARNING** there will be many processes running at the same time in this setup, so if you are using boot2docker, make sure, that there is enough RAM in boot2docker VM. Recommended is **5Gb** RAM.
 
-To check current memory amount, just type:
+To check current memory size, just type:
 ```
-$ boot2docker info | grep Memory
+boot2docker info | grep Memory
+```
+The output would be something like:
+```
     "Memory": 5000,
 ```
 
-If the amount below recommended, perform the following steps to increase RAM size before continuing.
+If the memory size is below recommended, perform the following steps to increase it before continuing.
 ```
 boot2docker delete
 boot2docker init -m 5000
