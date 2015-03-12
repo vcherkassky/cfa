@@ -1,9 +1,13 @@
 package com.cfa.message;
 
+import com.google.common.base.Throwables;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 
 import java.util.Properties;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <br/><br/>Created by victor on 3/11/15.
@@ -25,6 +29,12 @@ public class MessageSink {
     }
 
     public void send(String json) {
-        producer.send(new ProducerRecord<>(topic, json));
+        Future<RecordMetadata> future = producer.send(new ProducerRecord<>(topic, json));
+        try {
+            future.get(30, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            //TODO: handle exceptions some way
+            throw Throwables.propagate(e);
+        }
     }
 }
