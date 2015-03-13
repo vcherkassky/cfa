@@ -1,6 +1,6 @@
 consumer:
   build: .
-  command: /code/gradlew message-consumer:run -Pport=8080 -PbrokerList=kafka:9092
+  command: gradle clean message-consumer:run -Pport=8080 -PbrokerList=kafka:9092
   links:
    - kafka
   ports:
