@@ -16,13 +16,13 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
-import static com.cfa.realtime.SlidingTransactionCounter.isTick;
+import static com.cfa.realtime.SlidingTransactionCountingBolt.isTick;
 
 /**
  * <br/><br/>Created by victor on 3/13/15.
  */
-public class StatsCountingBolt extends BaseRichBolt {
-    private static final Logger log = LoggerFactory.getLogger(StatsCountingBolt.class);
+public class TotalAmountCountingBolt extends BaseRichBolt {
+    private static final Logger log = LoggerFactory.getLogger(TotalAmountCountingBolt.class);
 
     private final int emitFrequencySeconds;
 
@@ -30,7 +30,7 @@ public class StatsCountingBolt extends BaseRichBolt {
 
     private OutputCollector collector;
 
-    public StatsCountingBolt(int emitFrequencySeconds) {
+    public TotalAmountCountingBolt(int emitFrequencySeconds) {
         this.emitFrequencySeconds = emitFrequencySeconds;
     }
 

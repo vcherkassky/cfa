@@ -46,10 +46,10 @@ public class TopologySubmitter implements Serializable {
         builder.setBolt("json-parser", new JsonParsingBolt(), 3).shuffleGrouping("consume-messages");
 
         // group by country, so that each country count would have its own separate bolt
-        builder.setBolt("sliding-tx-counter", new SlidingTransactionCounter(300, 20), 3)
+        builder.setBolt("sliding-tx-counter", new SlidingTransactionCountingBolt(300, 20), 3)
                 .fieldsGrouping("json-parser", new Fields("originatingCountry"));
 
-        builder.setBolt("total-amount-counter", new StatsCountingBolt(120), 3)
+        builder.setBolt("total-amount-counter", new TotalAmountCountingBolt(120), 3)
                 .fieldsGrouping("json-parser", new Fields("originatingCountry"));
 
         return builder.createTopology();

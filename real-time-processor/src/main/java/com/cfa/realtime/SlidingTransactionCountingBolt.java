@@ -26,8 +26,8 @@ import static com.google.common.base.Preconditions.checkArgument;
  *
  * <br/><br/>Created by victor on 3/13/15.
  */
-public class SlidingTransactionCounter extends BaseRichBolt {
-    private static final Logger log = LoggerFactory.getLogger(SlidingTransactionCounter.class);
+public class SlidingTransactionCountingBolt extends BaseRichBolt {
+    private static final Logger log = LoggerFactory.getLogger(SlidingTransactionCountingBolt.class);
 
     private final Map<String, LinkedList<Integer>> transactionsPerCountry = Maps.newHashMap();
 
@@ -40,7 +40,7 @@ public class SlidingTransactionCounter extends BaseRichBolt {
 
     private OutputCollector collector;
 
-    public SlidingTransactionCounter(int windowSizeSeconds, int windowSlideFrequencySeconds) {
+    public SlidingTransactionCountingBolt(int windowSizeSeconds, int windowSlideFrequencySeconds) {
         this.windowSlideFrequencySeconds = windowSlideFrequencySeconds;
         this.windowCellsCount = (windowSizeSeconds + windowSlideFrequencySeconds - 1) / windowSlideFrequencySeconds;
         checkArgument(windowCellsCount > 1);
