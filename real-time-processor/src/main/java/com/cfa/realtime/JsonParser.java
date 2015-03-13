@@ -16,12 +16,13 @@ import static java.lang.String.format;
 public class JsonParser {
     private static final Logger log = LoggerFactory.getLogger(JsonParser.class);
 
+    // format for "24-JAN-15 10:27:44"
     private static final DateTimeFormatterBuilder formatterBuilder = new DateTimeFormatterBuilder()
             .appendDayOfMonth(2)
             .appendLiteral('-')
             .appendMonthOfYearShortText()
             .appendLiteral('-')
-            .appendYear(2, 2)
+            .appendTwoDigitYear(2000)
             .appendLiteral(' ')
             .appendHourOfDay(2)
             .appendLiteral(':')
@@ -30,11 +31,9 @@ public class JsonParser {
             .appendSecondOfMinute(2);
     public static final DateTimeFormatter dateFormatter = new DateTimeFormatter(formatterBuilder.toPrinter(), formatterBuilder.toParser());
 
-    private static final JSONParser parser = new JSONParser();
-
     public static Message parseMessage(String json) {
         try {
-            JSONObject jsonObj = (JSONObject) parser.parse(json);
+            JSONObject jsonObj = (JSONObject) new JSONParser().parse(json);
             return new Message(
                     getString(jsonObj, "userId"),
                     getString(jsonObj, "currencyFrom"),
