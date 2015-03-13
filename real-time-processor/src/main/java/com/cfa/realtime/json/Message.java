@@ -1,4 +1,4 @@
-package com.cfa.realtime;
+package com.cfa.realtime.json;
 
 import backtype.storm.tuple.Fields;
 import org.joda.time.DateTime;

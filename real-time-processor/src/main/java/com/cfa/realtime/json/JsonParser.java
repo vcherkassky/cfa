@@ -1,4 +1,4 @@
-package com.cfa.realtime;
+package com.cfa.realtime.json;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;

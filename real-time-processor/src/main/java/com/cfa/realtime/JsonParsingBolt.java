@@ -4,6 +4,8 @@ import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.tuple.Tuple;
+import com.cfa.realtime.json.JsonParser;
+import com.cfa.realtime.json.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
