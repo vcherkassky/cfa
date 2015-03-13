@@ -1,8 +1,10 @@
 package com.cfa.realtime;
 
+import backtype.storm.tuple.Fields;
 import org.joda.time.DateTime;
 
-import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Message parsed out from the following Json:
@@ -18,16 +20,53 @@ import java.math.BigDecimal;
  *     "originatingCountry" : "FR"
  * }
  * </pre>
- *
+ * <p/>
  * <br/><br/>Created by victor on 3/13/15.
  */
 public class Message {
-    public String userId;
-    public String currencyFrom;
-    public String currencyTo;
-    public BigDecimal amountSell;
-    public BigDecimal amountBuy;
-    public BigDecimal rate;
-    public DateTime timePlaced;
-    public String originatingCountry;
+
+    final String userId;
+    final String currencyFrom;
+    final String currencyTo;
+    final Double amountSell;
+    final Double amountBuy;
+    final Double rate;
+    final DateTime timePlaced;
+    final String originatingCountry;
+
+    public Message(String userId, String currencyFrom, String currencyTo, Double amountSell, Double amountBuy,
+                   Double rate, DateTime timePlaced, String originatingCountry) {
+        this.userId = userId;
+        this.currencyFrom = currencyFrom;
+        this.currencyTo = currencyTo;
+        this.amountSell = amountSell;
+        this.amountBuy = amountBuy;
+        this.rate = rate;
+        this.timePlaced = timePlaced;
+        this.originatingCountry = originatingCountry;
+    }
+
+    public List<Object> values() {
+        return Arrays.<Object>asList(
+                userId,
+                currencyFrom,
+                currencyTo,
+                amountSell,
+                amountBuy,
+                rate,
+                timePlaced,
+                originatingCountry
+        );
+    }
+
+    public static final Fields FIELDS = new Fields(
+            "userId",
+            "currencyFrom",
+            "currencyTo",
+            "amountSell",
+            "amountBuy",
+            "rate",
+            "timePlaced",
+            "originatingCountry"
+    );
 }

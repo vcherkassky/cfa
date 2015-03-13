@@ -30,7 +30,7 @@ dependencies {
     compile 'org.apache.storm:storm-kafka:0.9.3'
     compile 'org.apache.kafka:kafka_2.11:0.8.2.0'
 
-    compile 'com.google.code.gson:gson:2.1'
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
 
     compile 'org.slf4j:log4j-over-slf4j:1.6.+'
 }
