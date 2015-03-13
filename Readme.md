@@ -1,5 +1,23 @@
 # CF Assignment
 
+# Solution
+
+Solution consists of many decoupled highly scalable components on their own, so here is a brief description.
+
+- **consumer** - single web process, which can be easily scaled (if put behind any router/load-balancer); it just validates messages and passes to **Kafka** for other components to process
+- **zookeeper** - **kafka** and **storm** use **zookeeper** as coordinator and cluster manager
+- **kafka** - kafka cluster scalably decouples consumer nodes from processor nodes
+- **real-time-processor** - implemented using **storm** and consists of **zookeeper** (**kafka**'s is reused in current configuration), **nimbus** process (the master) and **supervisor** process (slave/follower); all processing is done inside **storm**:
+  - String messages are consumed using `KafkaSpout` (from kafka) and passed further
+  - untouched String message from `KafkaSpout` is parsed into a set of fields using JsonParsingBolt
+  - `SlidingTransactionCounterBolt` counts a sliding average of transactions per fixed amount of time (5 mins hardcoded for now) using stream from `JsonParsingBolt`
+  - `TotalAmountCountingBolt` counts money total amount all transactions grouped by countries and currencies
+  - `TransactionCounterWritingBolt` and `TotalAmountWritingBolt` just write data from previous bolts respectively to Cassandra tables
+- **cassandra** - just a single-node cassandra cluster in current configuration
+- **frontend** - single web process, which just reads from Cassandra what `TransactionCounterWritingBolt` and `TotalAmountWritingBolt` have written and produces Json results
+
+# Running
+
 ## Prerequisites
 
  - Oracle or Open JDK 7 installed
