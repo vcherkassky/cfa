@@ -21,7 +21,7 @@ public class TransactionsAverageResource {
     @Produces(MediaType.APPLICATION_JSON)
     public TransactionAverage[] list() {
         List<TransactionAverage> result = new ArrayList<>();
-        ResultSet resultSet = CassandraClient.getInstance().selectTotalAmounts();
+        ResultSet resultSet = CassandraClient.getInstance().selectTransactionsCount();
         for (Row row : resultSet) {
             result.add(new TransactionAverage(
                     row.getString("country"),
