@@ -49,9 +49,9 @@ public class TotalAmountCountingBolt extends BaseRichBolt {
                 for (CurrencyStats currencyStats : entry.getValue().values()) {
                     //TODO: this should be a debug level
                     log.info("Country {} currency {} totalSell {} totalBuy {}", country, currencyStats.currency,
-                            currencyStats.totalSell, currencyStats.totalSell);
+                            currencyStats.totalSell, currencyStats.totalBuy);
                     collector.emit(Arrays.<Object>asList(country, currencyStats.currency, currencyStats.totalSell,
-                            currencyStats.totalSell, new DateTime()));
+                            currencyStats.totalBuy, new DateTime()));
                 }
             }
         } else {
