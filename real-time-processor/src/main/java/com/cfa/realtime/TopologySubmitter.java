@@ -10,7 +10,6 @@ import backtype.storm.spout.SchemeAsMultiScheme;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.tuple.Fields;
 import com.cfa.commons.Consts;
-import com.cfa.realtime.cassandra.CassandraClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import storm.kafka.KafkaSpout;
@@ -46,7 +45,7 @@ public class TopologySubmitter implements Serializable {
         return new KafkaSpout(kafkaConfig);
     }
 
-    public StormTopology createTopology() {
+    public StormTopology createTopology(String cassandraAddress) {
         TopologyBuilder builder = new TopologyBuilder();
         builder.setSpout("consume-messages", consumeSpout(), 5);
 
@@ -59,10 +58,10 @@ public class TopologySubmitter implements Serializable {
         builder.setBolt("total-amount-counter", new TotalAmountCountingBolt(TOTAL_AMOUNT_SYNC_FREQUENCY_SEC), 3)
                 .fieldsGrouping("json-parser", new Fields("originatingCountry"));
 
-        builder.setBolt("tx-counter-writer", new TransactionCounterWritingBolt(CASSANDRA_STATS_TTL_SEC), 2)
+        builder.setBolt("tx-counter-writer", new TransactionCounterWritingBolt(cassandraAddress, CASSANDRA_STATS_TTL_SEC), 2)
                 .shuffleGrouping("sliding-tx-counter");
 
-        builder.setBolt("total-amount-writer", new TotalAmountWritingBolt(CASSANDRA_STATS_TTL_SEC), 2)
+        builder.setBolt("total-amount-writer", new TotalAmountWritingBolt(cassandraAddress, CASSANDRA_STATS_TTL_SEC), 2)
                 .shuffleGrouping("total-amount-counter");
 
         return builder.createTopology();
@@ -86,9 +85,6 @@ public class TopologySubmitter implements Serializable {
         TopologySubmitter submitter = new TopologySubmitter(zookeeperAddress);
 
         String cassandraAddress = args[1];
-        CassandraClient.init(cassandraAddress);
-        CassandraClient.getInstance().connect();
-        CassandraClient.getInstance().createSchema();
 
         if (args.length == 3) {
             String dockerIp = args[2];
@@ -96,10 +92,10 @@ public class TopologySubmitter implements Serializable {
             config.put(Config.NIMBUS_THRIFT_PORT, 6627);
             config.put(Config.STORM_ZOOKEEPER_PORT, 2181);
             config.put(Config.STORM_ZOOKEEPER_SERVERS, Arrays.asList(dockerIp));
-            StormSubmitter.submitTopology("process-messages", config, submitter.createTopology());
+            StormSubmitter.submitTopology("process-messages", config, submitter.createTopology(cassandraAddress));
         } else {
             LocalCluster cluster = new LocalCluster();
-            cluster.submitTopology("process-messages", config, submitter.createTopology());
+            cluster.submitTopology("process-messages", config, submitter.createTopology(cassandraAddress));
         }
     }
 }

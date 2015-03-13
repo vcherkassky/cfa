@@ -14,9 +14,11 @@ import java.math.BigDecimal;
  */
 public class TotalAmountWritingBolt extends BaseBasicBolt {
 
+    private final String cassandraAddress;
     private final int ttlSeconds;
 
-    public TotalAmountWritingBolt(int ttlSeconds) {
+    public TotalAmountWritingBolt(String cassandraAddress, int ttlSeconds) {
+        this.cassandraAddress = cassandraAddress;
         this.ttlSeconds = ttlSeconds;
     }
 
@@ -28,7 +30,7 @@ public class TotalAmountWritingBolt extends BaseBasicBolt {
         BigDecimal totalBuy = (BigDecimal) input.getValueByField("totalBuy");
         DateTime checkDateTime = (DateTime) input.getValueByField("checkDateTime");
 
-        CassandraClient.getInstance()
+        CassandraClient.getInstance(cassandraAddress)
                 .insertTotalAmount(country, currency, totalSell, totalBuy, checkDateTime, ttlSeconds);
     }
 

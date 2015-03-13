@@ -22,11 +22,17 @@ public class CassandraClient {
         this.address = address;
     }
 
-    public static void init(String address) {
-        _instance = new CassandraClient(address);
-    }
-
-    public static CassandraClient getInstance() {
+    //TODO: this is ugly
+    public static CassandraClient getInstance(String address) {
+        if (_instance == null) {
+            synchronized(CassandraClient.class) {
+                if (_instance == null) {
+                    _instance = new CassandraClient(address);
+                    _instance.connect();
+                    _instance.createSchema();
+                }
+            }
+        }
         return _instance;
     }
 

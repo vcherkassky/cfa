@@ -12,9 +12,11 @@ import org.joda.time.DateTime;
  */
 public class TransactionCounterWritingBolt extends BaseBasicBolt {
 
+    private final String cassandraAddress;
     private final int ttlSeconds;
 
-    public TransactionCounterWritingBolt(int ttlSeconds) {
+    public TransactionCounterWritingBolt(String cassandraAddress, int ttlSeconds) {
+        this.cassandraAddress = cassandraAddress;
         this.ttlSeconds = ttlSeconds;
     }
 
@@ -25,7 +27,7 @@ public class TransactionCounterWritingBolt extends BaseBasicBolt {
         Integer windowSizeSeconds = input.getIntegerByField("windowSizeSeconds");
         DateTime checkDateTime = (DateTime) input.getValueByField("checkDateTime");
 
-        CassandraClient.getInstance()
+        CassandraClient.getInstance(cassandraAddress)
                 .insertTransactionsCount(country, transactions, windowSizeSeconds, checkDateTime, ttlSeconds);
     }
 
