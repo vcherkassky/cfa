@@ -62,7 +62,7 @@ public class SlidingTransactionCountingBolt extends BaseRichBolt {
             for (Map.Entry<String, Integer> entry : countsForEmission.entrySet()) {
                 //TODO: this should be a debug level
                 log.info("Country {} transactions {} during last {} seconds", entry.getKey(), entry.getValue(), windowSizeSeconds);
-                collector.emit(Arrays.<Object>asList(entry.getKey(), entry.getValue(), windowSizeSeconds));
+                collector.emit(Arrays.<Object>asList(entry.getKey(), entry.getValue(), windowSizeSeconds, new DateTime()));
             }
         } else {
             String country = input.getStringByField("originatingCountry");
@@ -110,7 +110,7 @@ public class SlidingTransactionCountingBolt extends BaseRichBolt {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-        declarer.declare(new Fields("country", "transactions", "windowSizeSeconds"));
+        declarer.declare(new Fields("country", "transactions", "windowSizeSeconds", "checkDateTime"));
     }
 
     @Override

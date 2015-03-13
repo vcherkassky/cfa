@@ -9,6 +9,7 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +51,7 @@ public class TotalAmountCountingBolt extends BaseRichBolt {
                     log.info("Country {} currency {} totalSell {} totalBuy {}", country, currencyStats.currency,
                             currencyStats.totalSell, currencyStats.totalSell);
                     collector.emit(Arrays.<Object>asList(country, currencyStats.currency, currencyStats.totalSell,
-                            currencyStats.totalSell));
+                            currencyStats.totalSell, new DateTime()));
                 }
             }
         } else {
@@ -71,7 +72,7 @@ public class TotalAmountCountingBolt extends BaseRichBolt {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-        declarer.declare(new Fields("country", "currency", "totalSell", "totalBuy"));
+        declarer.declare(new Fields("country", "currency", "totalSell", "totalBuy", "checkDateTime"));
     }
 
     @Override
