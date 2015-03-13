@@ -1,6 +1,7 @@
-package com.cfa.realtime.cassandra;
+package com.cfa.commons.cassandra;
 
 import com.datastax.driver.core.*;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,12 @@ public class CassandraClient {
                 }
             }
         }
+        return _instance;
+    }
+
+    public static CassandraClient getInstance() {
+        if (_instance == null)
+            throw new IllegalStateException("Not initialized. Call getInstance(address) first.");
         return _instance;
     }
 
@@ -90,6 +97,16 @@ public class CassandraClient {
                         "VALUES (?, ?, ?, ?) USING TTL " + ttlSeconds + ";");
         getSession().execute(statement.bind(country, transactions, windowSizeSeconds,
                 new Timestamp(checkTimestamp.getMillis())));
+    }
+
+    public ResultSet selectTotalAmounts() {
+        Statement statement = QueryBuilder.select().all().from("currency_exchange", "total_amount");
+        return getSession().execute(statement);
+    }
+
+    public ResultSet selectTransactionsCount() {
+        Statement statement = QueryBuilder.select().all().from("currency_exchange", "transactions_sliding_average");
+        return getSession().execute(statement);
     }
 
     public void close() {

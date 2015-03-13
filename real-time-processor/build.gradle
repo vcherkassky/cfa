@@ -32,7 +32,5 @@ dependencies {
 
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
 
-    compile 'com.datastax.cassandra:cassandra-driver-core:2.1.2'
-
     compile 'org.slf4j:log4j-over-slf4j:1.6.+'
 }

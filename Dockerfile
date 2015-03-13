@@ -10,6 +10,6 @@ RUN apt-get update; apt-get install -y gradle-2.1
 ADD . /code
 WORKDIR /code
 
-RUN gradle build
+RUN gradle clean build
 
 VOLUME /code

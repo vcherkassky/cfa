@@ -1,3 +1,28 @@
+apply plugin: 'application'
+
 dependencies {
-    testCompile 'junit:junit:4.11'
+    compile project(":commons")
+
+    compile 'org.eclipse.jetty:jetty-server:9.2.9.v20150224',
+            'org.eclipse.jetty:jetty-servlet:9.2.9.v20150224'
+
+    compile 'org.glassfish.jersey.core:jersey-server:2.7',
+            'org.glassfish.jersey.containers:jersey-container-servlet-core:2.7',
+            'org.glassfish.jersey.media:jersey-media-moxy:2.7'
+
+    compile 'org.slf4j:slf4j-api:1.7.+'
+    runtime 'ch.qos.logback:logback-classic:1.0.+'
+}
+
+run {
+    mainClassName = 'com.cfa.frontend.Endpoint'
+    if (project.hasProperty("port") && project.hasProperty("cassandraAddress"))
+        args = [project.properties["port"], project.properties["cassandraAddress"]]
+}
+
+run.doFirst {
+    if (!project.hasProperty("port"))
+        throw new InvalidUserDataException("'port' is not specified, you can pass it as e.g. -Pport=8080")
+    if (!project.hasProperty("cassandraAddress"))
+        throw new InvalidUserDataException("'cassandraAddress' is not specified, you can pass it as e.g. -PcassandraAddress=localhost")
 }

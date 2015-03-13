@@ -2,8 +2,6 @@ rootProject.name = 'currency-fair'
 
 include 'message-consumer'
 
-include 'batch-processor'
-
 include 'real-time-processor'
 
 include 'front-end'

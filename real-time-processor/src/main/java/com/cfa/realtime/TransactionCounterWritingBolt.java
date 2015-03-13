@@ -4,7 +4,7 @@ import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.tuple.Tuple;
-import com.cfa.realtime.cassandra.CassandraClient;
+import com.cfa.commons.cassandra.CassandraClient;
 import org.joda.time.DateTime;
 
 /**

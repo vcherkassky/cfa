@@ -6,6 +6,14 @@ consumer:
   ports:
    - "8080:8080"
 
+frontend:
+  build: .
+  command: gradle clean front-end:run -Pport=8090 -PcassandraAddress=cassandra
+  links:
+   - cassandra
+  ports:
+   - "8090:8090"
+
 zookeeper:
   image: wurstmeister/zookeeper
   ports: 
