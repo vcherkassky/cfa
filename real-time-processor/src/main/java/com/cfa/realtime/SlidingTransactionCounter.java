@@ -119,7 +119,7 @@ public class SlidingTransactionCounter extends BaseRichBolt {
                 Config.TOPOLOGY_TICK_TUPLE_FREQ_SECS, windowSlideFrequencySeconds);
     }
 
-    private static boolean isTick(Tuple tuple) {
+    public static boolean isTick(Tuple tuple) {
         return tuple.getSourceStreamId().equals(Constants.SYSTEM_TICK_STREAM_ID)
                 && tuple.getSourceComponent().equals(Constants.SYSTEM_COMPONENT_ID);
     }

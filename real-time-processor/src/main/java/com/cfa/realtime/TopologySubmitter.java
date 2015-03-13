@@ -41,12 +41,15 @@ public class TopologySubmitter implements Serializable {
 
     public StormTopology createTopology() {
         TopologyBuilder builder = new TopologyBuilder();
-        builder.setSpout("consume-messages", consumeSpout(), 10);
+        builder.setSpout("consume-messages", consumeSpout(), 5);
 
-        builder.setBolt("json-parser", new JsonParsingBolt(), 10).shuffleGrouping("consume-messages");
+        builder.setBolt("json-parser", new JsonParsingBolt(), 3).shuffleGrouping("consume-messages");
 
-        // group by country, so that each country would have its own separate bolt
-        builder.setBolt("sliding-tx-counter", new SlidingTransactionCounter(300, 20), 5)
+        // group by country, so that each country count would have its own separate bolt
+        builder.setBolt("sliding-tx-counter", new SlidingTransactionCounter(300, 20), 3)
+                .fieldsGrouping("json-parser", new Fields("originatingCountry"));
+
+        builder.setBolt("total-amount-counter", new StatsCountingBolt(120), 3)
                 .fieldsGrouping("json-parser", new Fields("originatingCountry"));
 
         return builder.createTopology();
