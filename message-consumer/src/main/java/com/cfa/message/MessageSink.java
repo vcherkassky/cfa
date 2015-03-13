@@ -28,7 +28,7 @@ public class MessageSink {
     }
 
     public void send(String json) {
-        Future<RecordMetadata> future = producer.send(new ProducerRecord<>(topic, json));
+        Future<RecordMetadata> future = producer.send(new ProducerRecord<String, String>(topic, json));
         try {
             future.get(30, TimeUnit.SECONDS);
         } catch (Exception e) {

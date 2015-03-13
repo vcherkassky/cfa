@@ -7,11 +7,7 @@ import backtype.storm.generated.AlreadyAliveException;
 import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.generated.StormTopology;
 import backtype.storm.spout.SchemeAsMultiScheme;
-import backtype.storm.topology.BasicOutputCollector;
-import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.TopologyBuilder;
-import backtype.storm.topology.base.BaseBasicBolt;
-import backtype.storm.tuple.Tuple;
 import com.cfa.commons.Consts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +35,6 @@ public class TopologySubmitter implements Serializable {
     private KafkaSpout consumeSpout() {
         SpoutConfig kafkaConfig = new SpoutConfig(new ZkHosts(zookeeperAddress), topic, "", "storm");
         kafkaConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
-        //TODO: there is something about timestamps => http://stackoverflow.com/questions/17807292/kafkaspout-is-not-receiving-anything-from-kafka
         return new KafkaSpout(kafkaConfig);
     }
 
@@ -47,17 +42,8 @@ public class TopologySubmitter implements Serializable {
         TopologyBuilder builder = new TopologyBuilder();
         builder.setSpout("consume-messages", consumeSpout(), 10);
 
-        builder.setBolt("log", new BaseBasicBolt() {
-            @Override
-            public void execute(Tuple input, BasicOutputCollector collector) {
-                log.debug("Received tuple {}", input);
-            }
+        builder.setBolt("json-parser", new JsonParsingBolt(), 10).shuffleGrouping("consume-messages");
 
-            @Override
-            public void declareOutputFields(OutputFieldsDeclarer declarer) {
-            }
-        });
-        //TODO: add bolts
         return builder.createTopology();
     }
 
