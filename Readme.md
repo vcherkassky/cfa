@@ -34,7 +34,7 @@ If you are on Mac OS X and your `boot2docker ip` differs from `192.168.59.103`, 
 
 ## Run
 
-1) run all containers
+1) run all containers (first time it may take ~30min)
 ```
 docker-compose up
 ```
@@ -43,24 +43,49 @@ docker-compose up
 
 Mac OS X
 ```
-./gradlew clean real-time-processor:fatJar ; storm jar real-time-processor/build/libs/real-time-processor-1.0.jar com.cfa.realtime.TopologySubmitter "`boot2docker ip`:2181" `boot2docker ip`
+./gradlew clean real-time-processor:fatJar ; storm jar real-time-processor/build/libs/real-time-processor-1.0.jar com.cfa.realtime.TopologySubmitter "`boot2docker ip`:2181" `boot2docker ip` `boot2docker ip`
 ```
 
 Linux
 ```
-./gradlew clean real-time-processor:fatJar ; storm jar real-time-processor/build/libs/real-time-processor-1.0.jar com.cfa.realtime.TopologySubmitter "localhost:2181" localhost
+./gradlew clean real-time-processor:fatJar ; storm jar real-time-processor/build/libs/real-time-processor-1.0.jar com.cfa.realtime.TopologySubmitter "localhost:2181" localhost localhost
 ```
+
+## Available URLs
+
+ - [http://`boot2docker`:8080/messages] - consumer URL one may POST Json messages to
+ - [http://`boot2docker`:8081] - storm-ui - a great monitoring tool for storm
+ - [http://`boot2docker`:8090/total-amount] - front-end URL to GET total buy and sell statistics on currencies in different countries
+ - [http://`boot2docker`:8090/transactions-average] - front-end URL to GET a sliding average of transaction count per 5 minutes recorded each 20 seconds
 
 ## Test
 
-### Mac OS X
+### Posting test messages
 
+Mac OS X
 ```
 curl -d '{"userId": "134256", "currencyFrom": "EUR", "currencyTo": "GBP", "amountSell": 1000, "amountBuy": 747.10, "rate": 0.7471, "timePlaced" : "24-JAN-15 10:27:44", "originatingCountry" : "FR"}' http://`boot2docker ip`:8080/messages
 ```
 
-### Linux
-
+Linux
 ```
 curl -d '{"userId": "134256", "currencyFrom": "EUR", "currencyTo": "GBP", "amountSell": 1000, "amountBuy": 747.10, "rate": 0.7471, "timePlaced" : "24-JAN-15 10:27:44", "originatingCountry" : "FR"}' http://localhost:8080/messages
+```
+
+### Retrieving statistics
+
+Mac OS X
+```
+curl http://`boot2docker ip`:8090/total-amount
+```
+```
+curl http://`boot2docker ip`:8090/transactions-average
+```
+
+Linux
+```
+curl http://localhost:8090/total-amount
+```
+```
+curl http://localhost:8090/transactions-average
 ```
