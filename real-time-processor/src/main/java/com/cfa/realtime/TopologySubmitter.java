@@ -8,6 +8,7 @@ import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.generated.StormTopology;
 import backtype.storm.spout.SchemeAsMultiScheme;
 import backtype.storm.topology.TopologyBuilder;
+import backtype.storm.tuple.Fields;
 import com.cfa.commons.Consts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,10 @@ public class TopologySubmitter implements Serializable {
         builder.setSpout("consume-messages", consumeSpout(), 10);
 
         builder.setBolt("json-parser", new JsonParsingBolt(), 10).shuffleGrouping("consume-messages");
+
+        // group by country, so that each country would have its own separate bolt
+        builder.setBolt("sliding-tx-counter", new SlidingTransactionCounter(300, 20), 5)
+                .fieldsGrouping("json-parser", new Fields("originatingCountry"));
 
         return builder.createTopology();
     }
