@@ -15,6 +15,10 @@ repositories {
     }
 }
 
+configurations {
+    all*.exclude module: 'slf4j-log4j12'
+}
+
 dependencies {
     compile project(":commons")
 
@@ -25,4 +29,6 @@ dependencies {
     }
     compile 'org.apache.storm:storm-kafka:0.9.3'
     compile 'org.apache.kafka:kafka_2.11:0.8.2.0'
+
+    compile 'org.slf4j:log4j-over-slf4j:1.6.+'
 }

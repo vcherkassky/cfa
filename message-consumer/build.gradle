@@ -9,6 +9,9 @@ dependencies {
             'org.eclipse.jetty:jetty-servlet:9.2.9.v20150224'
 
     compile 'com.google.guava:guava:18.0'
+
+    compile 'org.slf4j:slf4j-api:1.7.+'
+    runtime 'ch.qos.logback:logback-classic:1.0.+'
 }
 
 run {
