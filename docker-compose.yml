@@ -45,3 +45,10 @@ stormui:
     - nimbus:nimbus
     - zookeeper:zk
 
+cassandra:
+  image: spotify/cassandra
+  command: cassandra-singlenode
+  ports:
+    - "9160:9160"
+    - "9042:9042"
+
