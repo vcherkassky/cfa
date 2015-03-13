@@ -84,7 +84,7 @@ public class TotalAmountCountingBolt extends BaseRichBolt {
     private void trackTransaction(String country, String currencySell, Double amountSell, String currencyBuy,
                                   Double amountBuy) {
         getStats(country, currencySell).addSell(amountSell);
-        getStats(country, currencyBuy).addSell(amountBuy);
+        getStats(country, currencyBuy).addBuy(amountBuy);
     }
 
     private CurrencyStats getStats(String country, String currency) {
