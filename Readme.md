@@ -85,10 +85,10 @@ Linux
 
 ## Available URLs
 
- - [http://`boot2docker ip`:8080/messages](http://192.168.59.103:8080/messages) - consumer URL one may POST Json messages to
- - [http://`boot2docker ip`:8081](http://192.168.59.103:8081/) - storm-ui - a great monitoring tool for storm
- - [http://`boot2docker ip`:8090/total-amount](http://192.168.59.103/total-amount) - front-end URL to GET total buy and sell statistics on currencies in different countries
- - [http://`boot2docker ip`:8090/transactions-average](http://192.168.59.103/transactions-average) - front-end URL to GET a sliding average of transaction count per 5 minutes recorded each 20 seconds
+ - [http://`boot2docker ip`:8080/messages](http://192.168.59.103:8080/messages) - **consumer** URL one may POST Json messages to
+ - [http://`boot2docker ip`:8081](http://192.168.59.103:8081/) - **storm-ui** - a great monitoring tool for storm
+ - [http://`boot2docker ip`:8090/total-amount](http://192.168.59.103/total-amount) - **front-end** URL to GET total buy and sell statistics on currencies in different countries
+ - [http://`boot2docker ip`:8090/transactions-average](http://192.168.59.103/transactions-average) - **front-end** URL to GET a sliding average of transaction count per 5 minutes recorded each 20 seconds
 
 ## Test
 
@@ -124,4 +124,7 @@ curl http://localhost:8090/transactions-average
 
 # TODO list
 
-1. 
+1. Implement raw data writing into Cassandra, so it could be batch-processed later
+2. Add more stats
+3. Add a couple of web pages to display the stats graphically
+4. Make load tests and check out metrics in [storm-ui](http://192.168.59.103:8081/)
