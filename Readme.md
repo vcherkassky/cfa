@@ -6,11 +6,11 @@
 
 Basically solution consists of the following components
 
- 1. Consumer endpoint - web service with only one URL for POST requests exposed, which validates the incoming messages and writes them as is to Kafka
- 2. Real-time processor - the complex part, which consists of storm cluster, which retrieves messages from Kafka and processes them to count transaction stats and writes them to Cassandra for further querying. Stats include for now:
+ 1. **Consumer endpoint** - web service with only one URL for POST requests exposed, which validates the incoming messages and writes them as is to Kafka
+ 2. **Real-time processor** - the complex part, which consists of storm cluster, which retrieves messages from Kafka and processes them to count transaction stats and writes them to Cassandra for further querying. Stats include for now:
    - total Sell and Buy per currency per country
    - sliding average number of transactions per country for the last 5 minutes
- 3. Front-end for stats retrieval
+ 3. **Front-end** - web process for stats retrieval
 
 Solution is set up to run on any machine with the help of [docker](https://www.docker.com/whatisdocker/) and [docker-compose](https://docs.docker.com/compose/install/). Check out [docker-compose.yml](docker-compose.yml) for getting idea what will run.
 
