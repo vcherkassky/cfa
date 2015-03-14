@@ -2,6 +2,20 @@
 
 # Solution
 
+## Quick overview
+
+Basically solution consists of the following components
+
+ 1. Consumer endpoint - web service with only one URL for POST requests exposed, which validates the incoming messages and writes them as is to Kafka
+ 2. Real-time processor - the complex part, which consists of storm cluster, which retrieves messages from Kafka and processes them to count transaction stats and writes them to Cassandra for further querying. Stats include for now:
+   - total Sell and Buy per currency per country
+   - sliding average number of transactions per country for the last 5 minutes
+ 3. Front-end for stats retrieval
+
+Solution is set up to run on any machine with the help of [docker](https://www.docker.com/whatisdocker/) and [docker-compose](https://docs.docker.com/compose/install/). Check out [docker-compose.yml](docker-compose.yml) for getting idea what will run.
+
+## Solution components
+
 Solution consists of many decoupled highly scalable components on their own, so here is a brief description.
 
 - **consumer** - single web process, which can be easily scaled (if put behind any router/load-balancer); it just validates messages and passes to **Kafka** for other components to process
@@ -71,10 +85,10 @@ Linux
 
 ## Available URLs
 
- - [http://`boot2docker`:8080/messages] - consumer URL one may POST Json messages to
- - [http://`boot2docker`:8081] - storm-ui - a great monitoring tool for storm
- - [http://`boot2docker`:8090/total-amount] - front-end URL to GET total buy and sell statistics on currencies in different countries
- - [http://`boot2docker`:8090/transactions-average] - front-end URL to GET a sliding average of transaction count per 5 minutes recorded each 20 seconds
+ - [http://`boot2docker ip`:8080/messages](http://192.168.59.103:8080/messages) - consumer URL one may POST Json messages to
+ - [http://`boot2docker ip`:8081](http://192.168.59.103:8081/) - storm-ui - a great monitoring tool for storm
+ - [http://`boot2docker ip`:8090/total-amount](http://192.168.59.103/total-amount) - front-end URL to GET total buy and sell statistics on currencies in different countries
+ - [http://`boot2docker ip`:8090/transactions-average](http://192.168.59.103/transactions-average) - front-end URL to GET a sliding average of transaction count per 5 minutes recorded each 20 seconds
 
 ## Test
 
@@ -107,3 +121,7 @@ curl http://localhost:8090/total-amount
 ```
 curl http://localhost:8090/transactions-average
 ```
+
+# TODO list
+
+1. 
