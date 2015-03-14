@@ -12,6 +12,18 @@ Basically solution consists of the following components
    - sliding average number of transactions per country for the last 5 minutes
  3. **Front-end** - web process for stats retrieval
 
+Consumer receives messages in Json format:
+```json
+{"userId": "134256", 
+"currencyFrom": "EUR", 
+"currencyTo": "GBP", 
+"amountSell": 1000, 
+"amountBuy": 747.10, 
+"rate": 0.7471, 
+"timePlaced" : "24-JAN-15 10:27:44", 
+"originatingCountry" : "FR"}
+```
+
 Solution is set up to run on any machine with the help of [docker](https://www.docker.com/whatisdocker/) and [docker-compose](https://docs.docker.com/compose/install/). Check out [docker-compose.yml](docker-compose.yml) for getting idea what will run.
 
 ## Solution components
