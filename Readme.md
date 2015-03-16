@@ -97,10 +97,10 @@ Linux
 
 ## Available URLs
 
- - [http://`boot2docker ip`:8080/messages](http://192.168.59.103:8080/messages) - **consumer** URL one may POST Json messages to
- - [http://`boot2docker ip`:8081](http://192.168.59.103:8081/) - **storm-ui** - a great monitoring tool for storm
- - [http://`boot2docker ip`:8090/total-amount](http://192.168.59.103/total-amount) - **front-end** URL to GET total buy and sell statistics on currencies in different countries
- - [http://`boot2docker ip`:8090/transactions-average](http://192.168.59.103/transactions-average) - **front-end** URL to GET a sliding average of transaction count per 5 minutes recorded each 20 seconds
+ - [http://``boot2docker ip``:8080/messages](http://192.168.59.103:8080/messages) - **consumer** URL one may POST Json messages to
+ - [http://``boot2docker ip``:8081](http://192.168.59.103:8081/) - **storm-ui** - a great monitoring tool for storm
+ - [http://``boot2docker ip``:8090/total-amount](http://192.168.59.103/total-amount) - **front-end** URL to GET total buy and sell statistics on currencies in different countries
+ - [http://``boot2docker ip``:8090/transactions-average](http://192.168.59.103/transactions-average) - **front-end** URL to GET a sliding average of transaction count per 5 minutes recorded each 20 seconds
 
 ## Test
 
@@ -132,6 +132,14 @@ curl http://localhost:8090/total-amount
 ```
 ```
 curl http://localhost:8090/transactions-average
+```
+
+# Troubleshooting
+
+If you are using **boot2docker** and experience some issues after several docker-compose restarts, try restarting **boot2docker**:
+```
+boot2docker stop
+boot2docker start
 ```
 
 # TODO list
